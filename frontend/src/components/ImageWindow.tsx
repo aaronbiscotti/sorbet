@@ -70,21 +70,20 @@ export function ImageWindow({
     el.onload = () => {
       setImgEl(el);
       setImgSize({ w: el.naturalWidth, h: el.naturalHeight });
-      // Force canvas resize after image loads
-      setTimeout(() => {
-        if (containerRef.current && canvasRef.current) {
-          const rect = containerRef.current.getBoundingClientRect();
-          const canvas = canvasRef.current;
-          canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-          canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-          canvas.style.width = `${Math.floor(rect.width)}px`;
-          canvas.style.height = `${Math.floor(rect.height)}px`;
-          draw();
-        }
-      }, 100);
+      // Immediately resize canvas and draw when image loads
+      if (containerRef.current && canvasRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const canvas = canvasRef.current;
+        canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+        canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+        canvas.style.width = `${Math.floor(rect.width)}px`;
+        canvas.style.height = `${Math.floor(rect.height)}px`;
+        // Force a redraw after canvas resize
+        requestAnimationFrame(() => draw());
+      }
     };
     el.src = image;
-  }, [image]);
+  }, [image, dpr]);
 
   // Resize canvas to container
   useEffect(() => {
@@ -229,6 +228,13 @@ export function ImageWindow({
   useEffect(() => {
     draw();
   }, [draw]);
+
+  // Force redraw when image changes
+  useEffect(() => {
+    if (image && imgEl) {
+      requestAnimationFrame(() => draw());
+    }
+  }, [image, imgEl, draw]);
 
   const handleMouseDown = (e: MouseEvent) => {
     if (!imgEl) return; // ignore interactions until an image is loaded
