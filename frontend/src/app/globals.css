@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=TASA+Orbiter:wght@400..800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0a0a0a;
+  --color-foreground: #ededed;
+  --color-muted: #a1a1a1;
+  --color-input: #171717;
+  --color-border: #374151; /* darker gray (gray-700) */
+  --color-primary-light: #3185fe;
+  --color-primary-dark: #1651f3;
+
+  --font-sans: "TASA Orbiter", system-ui, sans-serif;
+}
+
+/* Animation keyframes */
+@keyframes popover-bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateX(-10px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.02) translateX(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+/* Custom range slider styling */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3185fe, #1651f3);
+  cursor: pointer;
+  border: 2px solid #0f0f0f;
+  box-shadow: 0 2px 8px rgba(49, 133, 254, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgba(49, 133, 254, 0.6);
+}
+
+.slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3185fe, #1651f3);
+  cursor: pointer;
+  border: 2px solid #0f0f0f;
+  box-shadow: 0 2px 8px rgba(49, 133, 254, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 12px rgba(49, 133, 254, 0.6);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom gradient border using background-clip */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(to right, #3185fe, #1651f3, #3185fe);
+  padding: 3px;
+  border-radius: 0.75rem;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--color-background);
+  border-radius: 0.65rem;
+  z-index: 0;
+}
